@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="Authentication.cs" />
+    <Compile Include="Model\Mix.cs" />
+    <Compile Include="Model\MixSet.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Common.rd.xml" />
