@@ -32,7 +32,7 @@ namespace Common
             return request;
         }
 
-        public static string CreateQueryStringFromParameters(Dictionary<string,string> queryParams)
+        private static string CreateQueryStringFromParameters(Dictionary<string,string> queryParams)
         {
             System.Text.StringBuilder queryString = new System.Text.StringBuilder("?");
 

@@ -31,9 +31,8 @@ namespace Common
             Dictionary<string, string> queryParams = new Dictionary<string, string>();
             queryParams.Add("login", username);
             queryParams.Add("password", password);
-            queryParams.Add("api_version", "3");
 
-            HttpResponseMessage response = ApiClient.Post("sessions.json", ApiClient.CreateQueryStringFromParameters(queryParams));
+            HttpResponseMessage response = ApiClient.Post("sessions.json", null, queryParams);
             if (response.IsSuccessStatusCode)
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
