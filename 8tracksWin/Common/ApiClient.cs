@@ -10,8 +10,15 @@ namespace Common
         static string devApiKey = "1814ff5a6d53aac74fc28827f0602d26ffc5d191";
         static UriBuilder baseApiUri = new UriBuilder("https://8tracks.com/");
 
-        private static HttpRequestMessage CreateRequestObj(string methodPath, HttpMethod method, Dictionary<string, string> headers)
+        private static HttpRequestMessage CreateRequestObj(string methodPath, HttpMethod method, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams =  null)
         {
+            //Always adding the api_version to the url
+            if (queryParams != null)
+                queryParams.Add("api_version", "3");
+            else
+                queryParams = new Dictionary<string, string>() { { "api_version", "3" } };
+
+            methodPath += Uri.EscapeDataString(CreateQueryStringFromParameters(queryParams));
             baseApiUri.Path += methodPath;
             HttpRequestMessage request = new HttpRequestMessage(method, baseApiUri.Uri);
             request.Headers.Add("X-Api-Key", devApiKey);
@@ -36,9 +43,9 @@ namespace Common
             return queryString.ToString();
         }
 
-        public static HttpResponseMessage Post(string methodPath, string data, Dictionary<string, string> headers = null)
+        public static HttpResponseMessage Post(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers);
+            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
             req.Content = new StringContent(data, System.Text.Encoding.UTF8);
 
             using (HttpClient client = new HttpClient())
@@ -49,9 +56,9 @@ namespace Common
             }
         }
 
-        public static async Task<HttpResponseMessage> PostAsync(string methodPath, string data, Dictionary<string, string> headers = null)
+        public static async Task<HttpResponseMessage> PostAsync(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers);
+            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
             req.Content = new StringContent(data, System.Text.Encoding.UTF8);
 
             using (HttpClient client = new HttpClient())
@@ -64,10 +71,7 @@ namespace Common
         public static HttpResponseMessage Get(string methodPath, Dictionary<string,string> headers = null, Dictionary<string,string> queryParams = null)
         {
 
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Get, headers);
-
-            if (queryParams != null)
-                methodPath += Uri.EscapeDataString(CreateQueryStringFromParameters(queryParams));
+            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Get, headers, queryParams);
 
             using (HttpClient client = new HttpClient())
             {
@@ -79,10 +83,7 @@ namespace Common
 
         public static async Task<HttpResponseMessage> GetAsync(string methodPath, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers);
-
-            if (queryParams != null)
-                methodPath += Uri.EscapeDataString(CreateQueryStringFromParameters(queryParams));
+            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
 
             using (HttpClient client = new HttpClient())
             {
