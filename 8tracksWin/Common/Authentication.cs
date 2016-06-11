@@ -1,27 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Windows.Security.Credentials;
+using Common.Configuration;
 
 namespace Common
 {
     public static class Authentication
     {
-        private static string userToken;
-        private const string userTokenSettingName = "userTokenSetting";
-
-        static Authentication()
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            object value = localSettings.Values[userTokenSettingName];
-            if (value == null)
-                userToken = string.Empty;
-            else
-                userToken = (string)value;
-        }
-
-        public static string UserToken { get { return userToken; } }
-
         /// <summary>
         /// Login with username and password.
         /// </summary>
@@ -39,9 +24,7 @@ namespace Common
                 JObject responseObj = JObject.Parse(responseContent);
                 if (responseObj["logged_in"].Value<bool>())
                 {
-                    userToken = responseObj.SelectToken("$.user.user_token").Value<string>();
-                    Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-                    localSettings.Values[userTokenSettingName] = userToken;
+                    GlobalConfigs.UserToken = responseObj.SelectToken("$.user.user_token").Value<string>();
                     return true;
                 }
             }

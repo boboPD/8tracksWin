@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
-    class MixSet
+    public class MixSet
     {
         public string decoded_smart_id { get; set; }
         public Mix[] mixes { get; set; }

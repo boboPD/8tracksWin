@@ -22,8 +22,8 @@ namespace Common
             baseApiUri.Path += methodPath;
             HttpRequestMessage request = new HttpRequestMessage(method, baseApiUri.Uri);
             request.Headers.Add("X-Api-Key", devApiKey);
-            if (Authentication.UserToken != string.Empty)
-                request.Headers.Add("X-User-Token", Authentication.UserToken);
+            if (Configuration.GlobalConfigs.UserToken != string.Empty)
+                request.Headers.Add("X-User-Token", Configuration.GlobalConfigs.UserToken);
 
             if(headers != null)
                 foreach (string key in headers.Keys)
