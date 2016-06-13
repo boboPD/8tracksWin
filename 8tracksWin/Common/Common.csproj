@@ -110,6 +110,7 @@
     <Compile Include="ApiClient.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="Configuration\GlobalConfigs.cs" />
+    <Compile Include="Model\CurrentMix.cs" />
     <Compile Include="Model\Mix.cs" />
     <Compile Include="Model\MixSet.cs" />
     <Compile Include="Model\Tags.cs" />

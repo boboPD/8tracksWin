@@ -4,6 +4,7 @@
     {
         const string userTokenConfigName = "userTokenSetting";
         const string nsfwPreferenceConfigName = "nsfwSetting";
+        const string playTokenConfigName = "playTokenSetting";
 
         static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
@@ -30,7 +31,20 @@
                 else
                     return (bool)val;
             }
-            set { localSettings.Values[userTokenConfigName] = value; }
+            set { localSettings.Values[nsfwPreferenceConfigName] = value; }
+        }
+
+        public static string PlayToken
+        {
+            get
+            {
+                object val = localSettings.Values[playTokenConfigName];
+                if (val == null)
+                    return string.Empty;
+                else
+                    return (string)val;
+            }
+            set { localSettings.Values[playTokenConfigName] = value; }
         }
     }
 }
