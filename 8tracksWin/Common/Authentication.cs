@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Common.Configuration;
 
@@ -13,11 +12,10 @@ namespace Common
         /// <returns>True on successful login and false otherwise</returns>
         public static async System.Threading.Tasks.Task<bool> Login(string username, string password)
         {
-            Dictionary<string, string> queryParams = new Dictionary<string, string>();
-            queryParams.Add("login", username);
-            queryParams.Add("password", password);
+            string data = System.Uri.EscapeDataString(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "login={0}&password={1}", username, password));
 
-            HttpResponseMessage response = ApiClient.Post("sessions.json", null, queryParams);
+            HttpResponseMessage response = ApiClient.Post("sessions.json", data);
             if (response.IsSuccessStatusCode)
             {
                 string responseContent = await response.Content.ReadAsStringAsync();

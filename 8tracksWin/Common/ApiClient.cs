@@ -83,7 +83,7 @@ namespace Common
 
         public static async Task<HttpResponseMessage> GetAsync(string methodPath, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
+            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Get, headers, queryParams);
 
             using (HttpClient client = new HttpClient())
             {
