@@ -12,8 +12,8 @@ namespace Common
         /// <returns>True on successful login and false otherwise</returns>
         public static async System.Threading.Tasks.Task<bool> Login(string username, string password)
         {
-            string data = System.Uri.EscapeDataString(string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                "login={0}&password={1}", username, password));
+            string data = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "login={0}&password={1}", System.Uri.EscapeDataString(username), System.Uri.EscapeDataString(password));
 
             HttpResponseMessage response = ApiClient.Post("sessions.json", data);
             if (response.IsSuccessStatusCode)

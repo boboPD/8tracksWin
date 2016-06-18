@@ -18,7 +18,7 @@ namespace Common
             else
                 queryParams = new Dictionary<string, string>() { { "api_version", "3" } };
 
-            methodPath += Uri.EscapeDataString(CreateQueryStringFromParameters(queryParams));
+            baseApiUri.Query = CreateQueryStringFromParameters(queryParams);
             baseApiUri.Path += methodPath;
             HttpRequestMessage request = new HttpRequestMessage(method, baseApiUri.Uri);
             request.Headers.Add("X-Api-Key", devApiKey);
@@ -34,7 +34,7 @@ namespace Common
 
         private static string CreateQueryStringFromParameters(Dictionary<string,string> queryParams)
         {
-            System.Text.StringBuilder queryString = new System.Text.StringBuilder("?");
+            System.Text.StringBuilder queryString = new System.Text.StringBuilder();
 
             foreach (string key in queryParams.Keys)
                 queryString.Append("&" + key + "=" + queryParams[key]);
@@ -46,7 +46,7 @@ namespace Common
         public static HttpResponseMessage Post(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
             HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
-            req.Content = new StringContent(data, System.Text.Encoding.UTF8);
+            req.Content = new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded");
 
             using (HttpClient client = new HttpClient())
             {
