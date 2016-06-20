@@ -26,7 +26,12 @@ namespace _8tracksWin.Pages
 
         public async void OnSubmitButtonClick(object sender, RoutedEventArgs e)
         {
-            await Common.Authentication.Login(txtUsername.Text, txtPassword.Password);
+            if (!(await Common.Authentication.Login(txtUsername.Text, txtPassword.Password)))
+            {
+                lblLoginFailedMessage.Visibility = Visibility.Visible;
+                txtPassword.Password = string.Empty;
+                txtUsername.Text = string.Empty;
+            }
         }
     }
 }
