@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    </Grid>
+    <Pivot Name="mainPivot">
+        <PivotItem Name="home" Header="Home"/>
+        <PivotItem Name="history" Header="History"/>
+        <PivotItem Name="popular" Header="Popular"/>
+    </Pivot>
 </Page>

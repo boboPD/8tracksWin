@@ -57,8 +57,14 @@ namespace Common.Search
         public static async Task<MixSet> SearchMixesByArtist(string artist)
         {
             string smartID = CreateSmartID("artist", artist);
-            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri,
-                CreateSmartID("tags", smartID));
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartID);
+            return (await SearchMixes(actionMethod));
+        }
+
+        public static async Task<MixSet> GetRecommendedMixes(int userId)
+        {
+            string smartId = CreateSmartID("recommended", userId.ToString());
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartId);
             return (await SearchMixes(actionMethod));
         }
     }
