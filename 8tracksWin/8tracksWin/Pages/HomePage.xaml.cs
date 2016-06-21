@@ -20,9 +20,9 @@ namespace _8tracksWin.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class HomePage : Page
     {
-        public MainPage()
+        public HomePage()
         {
             this.InitializeComponent();
         }
