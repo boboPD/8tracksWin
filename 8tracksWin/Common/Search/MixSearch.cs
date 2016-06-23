@@ -1,5 +1,6 @@
 ﻿using Common.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,9 +14,10 @@ namespace Common.Search
 
         public static async Task<MixSet> FetchTrendingMixes()
         {
-            string actionMethod = mixSearchBaseUri + CreateSmartID("all");
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json",  mixSearchBaseUri, CreateSmartID("all", sortType: "popular"));
             HttpResponseMessage response = await ApiClient.GetAsync(actionMethod, null, new Dictionary<string, string>() { { "include", "mixes" } });
-            MixSet results = JsonConvert.DeserializeObject<MixSet>(await response.Content.ReadAsStringAsync());
+            JObject resObj = JObject.Parse(await response.Content.ReadAsStringAsync());
+            MixSet results = JsonConvert.DeserializeObject<MixSet>(resObj.SelectToken("$.mix_set").ToString());
             return results;
         }
 
@@ -26,7 +28,7 @@ namespace Common.Search
                 smartID.Append(":" + id);
             if (!string.IsNullOrEmpty(sortType))
                 smartID.Append(":" + sortType);
-            if (Configuration.GlobalConfigs.NsfwPerference)
+            if (Configuration.GlobalConfigs.CurrentUser != null && Configuration.GlobalConfigs.CurrentUser.NsfwPreference)
                 smartID.Append(":safe");
 
             return smartID.ToString();
@@ -61,7 +63,7 @@ namespace Common.Search
             return (await SearchMixes(actionMethod));
         }
 
-        public static async Task<MixSet> GetRecommendedMixes(int userId)
+        public static async Task<MixSet> FetchRecommendedMixes(int userId)
         {
             string smartId = CreateSmartID("recommended", userId.ToString());
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartId);

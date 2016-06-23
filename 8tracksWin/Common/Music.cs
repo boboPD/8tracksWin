@@ -22,7 +22,7 @@ namespace Common
         {
             HttpResponseMessage res = await ApiClient.GetAsync(actionMethodBaseUri + "/new.json");
             string content = await res.Content.ReadAsStringAsync();
-            GlobalConfigs.PlayToken = JObject.Parse(content).SelectToken("$.play_token").Value<string>();
+            GlobalConfigs.CurrentUser.PlayToken = JObject.Parse(content).SelectToken("$.play_token").Value<string>();
         }
 
         public static async Task<CurrentMix> Play(int mixId, ChangeSongUserAction action)
@@ -42,7 +42,11 @@ namespace Common
                 default:
                     throw new System.ArgumentException("Invalid user action");
             }
-            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}/{2}.json", actionMethodBaseUri, GlobalConfigs.PlayToken, actionTxt);
+
+            if (GlobalConfigs.CurrentUser.PlayToken == string.Empty)
+                await GetPlayToken();
+
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}/{2}.json", actionMethodBaseUri, GlobalConfigs.CurrentUser.PlayToken, actionTxt);
             HttpResponseMessage res = await ApiClient.GetAsync(actionMethod, queryParams: new Dictionary<string, string>() { { "mix_id", mixId.ToString() } });
             CurrentMix mix = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrentMix>(await res.Content.ReadAsStringAsync());
 
@@ -51,7 +55,7 @@ namespace Common
 
         public static void ReportSongPlay(int trackId, int mixId)
         {
-            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}/report.json", actionMethodBaseUri, GlobalConfigs.PlayToken);
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}/report.json", actionMethodBaseUri, GlobalConfigs.CurrentUser.PlayToken);
             Dictionary<string, string> qparams = new Dictionary<string, string>()
             {
                 {"track_id", trackId.ToString() },

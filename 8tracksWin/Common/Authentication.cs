@@ -22,7 +22,9 @@ namespace Common
                 JObject responseObj = JObject.Parse(responseContent);
                 if (responseObj["logged_in"].Value<bool>())
                 {
-                    GlobalConfigs.UserToken = responseObj.SelectToken("$.user.user_token").Value<string>();
+                    string usertoken = responseObj.SelectToken("$.user.user_token").Value<string>();
+                    int userid = responseObj.SelectToken("$.user.id").Value<int>();
+                    GlobalConfigs.CurrentUser = new Model.User(userid, usertoken);
                     return true;
                 }
             }

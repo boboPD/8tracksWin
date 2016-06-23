@@ -1,50 +1,35 @@
-﻿namespace Common.Configuration
+﻿using Common.Model;
+using Newtonsoft.Json;
+
+namespace Common.Configuration
 {
     public static class GlobalConfigs
     {
-        const string userTokenConfigName = "userTokenSetting";
-        const string nsfwPreferenceConfigName = "nsfwSetting";
-        const string playTokenConfigName = "playTokenSetting";
+        const string currentUserConfigName = "currentUserSetting";
 
         static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
-        public static string UserToken
-        {
-            get
-            {
-                object val = localSettings.Values[userTokenConfigName];
-                if (val == null)
-                    return string.Empty;
-                else
-                    return (string)val;
-            }
-            set { localSettings.Values[userTokenConfigName] = value; }
-        }
+        static User currentUser = null;
 
-        public static bool NsfwPerference
+        public static User CurrentUser
         {
             get
             {
-                object val = localSettings.Values[nsfwPreferenceConfigName];
-                if (val == null)
-                    return false;
-                else
-                    return (bool)val;
-            }
-            set { localSettings.Values[nsfwPreferenceConfigName] = value; }
-        }
+                if (currentUser == null)
+                {
+                    object val = localSettings.Values[currentUserConfigName];
+                    if (val != null)
+                        currentUser = JsonConvert.DeserializeObject<User>((string)val);
+                }
 
-        public static string PlayToken
-        {
-            get
-            {
-                object val = localSettings.Values[playTokenConfigName];
-                if (val == null)
-                    return string.Empty;
-                else
-                    return (string)val;
+                return currentUser;
             }
-            set { localSettings.Values[playTokenConfigName] = value; }
+
+            set
+            {
+                string serialisedObj = JsonConvert.SerializeObject(value);
+                localSettings.Values[currentUserConfigName] = serialisedObj;
+            }
         }
     }
 }

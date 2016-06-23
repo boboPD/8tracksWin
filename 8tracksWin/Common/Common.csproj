@@ -114,6 +114,7 @@
     <Compile Include="Model\Mix.cs" />
     <Compile Include="Model\MixSet.cs" />
     <Compile Include="Model\Tags.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Music.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\MixSearch.cs" />
