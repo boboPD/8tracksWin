@@ -8,8 +8,19 @@
     mc:Ignorable="d">
 
     <Pivot Name="mainPivot">
-        <PivotItem Name="home" Header="Home"/>
-        <PivotItem Name="history" Header="History"/>
-        <PivotItem Name="popular" Header="Popular"/>
+        <PivotItem Name="trendingView" Header="Trending">
+            <ListView Name="trendingMixesLst" DisplayMemberPath="name">
+                
+            </ListView>
+        </PivotItem>
+        <PivotItem Name="recommendedView" Header="Recommended" Visibility="Collapsed">
+            <ListView Name="recommendedMixesLst" Visibility="Collapsed"/>
+        </PivotItem>
+        <PivotItem Name="historyView" Header="Recently Played" Visibility="Collapsed">
+            <ListView Name="historyMixesLst" Visibility="Collapsed"/>
+        </PivotItem>
+        <PivotItem Name="listenLaterView" Header="Listen Later" Visibility="Collapsed">
+            <ListView Name="listenLaterMixesLst" Visibility="Collapsed"/>
+        </PivotItem>
     </Pivot>
 </Page>

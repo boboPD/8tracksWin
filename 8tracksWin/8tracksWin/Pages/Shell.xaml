@@ -15,11 +15,11 @@
             </StackPanel>
         </ControlTemplate>
     </Page.Resources>
-    <SplitView Name="shellView" IsPaneOpen="True" DisplayMode="Overlay">
+    <SplitView Name="shellView" IsPaneOpen="False" DisplayMode="Overlay">
         <SplitView.Pane>
             <StackPanel>
                 <RadioButton Tag="&#xe13d;" Content="" Template="{StaticResource radioButtonTemplate}"/>
-                <RadioButton Tag="" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
+                <RadioButton Tag="&#xe0a5;" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
                 <RadioButton Tag="" Content="Listen Later" Template="{StaticResource radioButtonTemplate}"/>
                 <RadioButton Tag="" Content="Profile" Template="{StaticResource radioButtonTemplate}"/>
             </StackPanel>
