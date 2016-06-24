@@ -1,4 +1,5 @@
 ﻿using Common.Model;
+using Common.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
@@ -10,16 +11,16 @@ namespace Common.Search
 {
     public static class MixSearch
     {
-        const string mixSearchBaseUri = "mix_sets/";
-
-        public static async Task<MixSet> FetchTrendingMixes()
+        public enum ListType
         {
-            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json",  mixSearchBaseUri, CreateSmartID("all", sortType: "popular"));
-            HttpResponseMessage response = await ApiClient.GetAsync(actionMethod, null, new Dictionary<string, string>() { { "include", "mixes" } });
-            JObject resObj = JObject.Parse(await response.Content.ReadAsStringAsync());
-            MixSet results = JsonConvert.DeserializeObject<MixSet>(resObj.SelectToken("$.mix_set").ToString());
-            return results;
+            RECOMMENDED,
+            LIKED,
+            LISTEN_LATER,
+            FEED,
+            PUBLISHED
         }
+
+        const string mixSearchBaseUri = "mix_sets/";
 
         private static string CreateSmartID(string smartType, string id = null, string sortType = null)
         {
@@ -34,23 +35,51 @@ namespace Common.Search
             return smartID.ToString();
         }
 
+        private static string ConvertListTypeToString(ListType type)
+        {
+            string s;
+            switch (type)
+            {
+                case ListType.RECOMMENDED:
+                    s = "recommended";
+                    break;
+                case ListType.LIKED:
+                    s = "liked";
+                    break;
+                case ListType.LISTEN_LATER:
+                    s = "listen_later";
+                    break;
+                case ListType.FEED:
+                    s = "feed";
+                    break;
+                case ListType.PUBLISHED:
+                    s = "dj";
+                    break;
+                default:
+                    throw new System.ArgumentException("Invalid ListType argument passed");
+            }
+
+            return s;
+        }
+
         private static async Task<MixSet> SearchMixes(string actionMethod)
         {
-            string response = await ApiClient.Get(actionMethod, queryParams: new Dictionary<string, string>() { { "include", "mixes" } }).Content.ReadAsStringAsync();
-            MixSet result = JsonConvert.DeserializeObject<MixSet>(response);
-            return result;
+            HttpResponseMessage response = await ApiClient.GetAsync(actionMethod, null, new Dictionary<string, string>() { { "include", "mixes" } });
+            JObject resObj = JObject.Parse(await response.Content.ReadAsStringAsync());
+            MixSet results = JsonConvert.DeserializeObject<MixSet>(resObj.SelectToken("$.mix_set").ToString());
+            return results;
         }
 
         public static async Task<MixSet> SearchMixesByTags(List<string> tags)
         {
             StringBuilder smartIdbuilder = new StringBuilder();
             foreach (string tag in tags)
-            {            
+            {
                 smartIdbuilder.Append(tag);
                 smartIdbuilder.Append("+");
             }
             smartIdbuilder.Remove(smartIdbuilder.Length - 1, 1);
-            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json",mixSearchBaseUri, 
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri,
                 CreateSmartID("tags", smartIdbuilder.ToString()));
 
             return (await SearchMixes(actionMethod));
@@ -63,9 +92,15 @@ namespace Common.Search
             return (await SearchMixes(actionMethod));
         }
 
-        public static async Task<MixSet> FetchRecommendedMixes(int userId)
+        public static async Task<MixSet> FetchTrendingMixes()
         {
-            string smartId = CreateSmartID("recommended", userId.ToString());
+            string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, CreateSmartID("all", sortType: "popular"));
+            return (await SearchMixes(actionMethod));
+        }
+
+        public static async Task<MixSet> FetchMixesforUser(ListType type, int userId)
+        {
+            string smartId = CreateSmartID(ConvertListTypeToString(type), userId.ToString());
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartId);
             return (await SearchMixes(actionMethod));
         }

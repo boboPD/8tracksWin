@@ -24,18 +24,14 @@ namespace _8tracksWin.Pages
         {
             this.InitializeComponent();
             trendingMixes = new ObservableCollection<Mix>();
+            recommendedMixes = new ObservableCollection<Mix>();
+            listenlaterMixes = new ObservableCollection<Mix>();
+            historyMixes = new ObservableCollection<Mix>();
+
+            recommendedMixesLst.ItemsSource = recommendedMixes;
+            listenLaterMixesLst.ItemsSource = listenlaterMixes;
+            historyMixesLst.ItemsSource = historyMixes;
             trendingMixesLst.ItemsSource = trendingMixes;
-
-            if (GlobalConfigs.CurrentUser != null)
-            {
-                recommendedMixes = new ObservableCollection<Mix>();
-                listenlaterMixes = new ObservableCollection<Mix>();
-                historyMixes = new ObservableCollection<Mix>();
-
-                recommendedMixesLst.ItemsSource = recommendedMixes;
-                listenLaterMixesLst.ItemsSource = listenlaterMixes;
-                historyMixesLst.ItemsSource = historyMixes;
-            }
 
             Loading += fetchHomePageMixSets;
         }
@@ -55,7 +51,7 @@ namespace _8tracksWin.Pages
 
             if (GlobalConfigs.CurrentUser != null)
             {
-                Task<MixSet> fetchRecommendedMixesTask = MixSearch.FetchRecommendedMixes(GlobalConfigs.CurrentUser.UserId);
+                Task<MixSet> fetchRecommendedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.RECOMMENDED, GlobalConfigs.CurrentUser.UserId);
 
                 await Task.WhenAll<MixSet>(fetchRecommendedMixesTask);
 
