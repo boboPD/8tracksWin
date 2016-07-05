@@ -2,13 +2,8 @@
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace _8tracksWin.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class LoginPage : Page
     {
         public LoginPage()
@@ -31,6 +26,11 @@ namespace _8tracksWin.Pages
                 lblLoginFailedMessage.Visibility = Visibility.Visible;
                 txtPassword.Password = string.Empty;
                 txtUsername.Text = string.Empty;
+            }
+            else
+            {
+                lblLoginFailedMessage.Visibility = Visibility.Collapsed;
+                Shell.ContentFrame.Navigate(typeof(HomePage));
             }
         }
     }

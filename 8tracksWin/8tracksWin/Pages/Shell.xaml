@@ -10,19 +10,25 @@
     <Page.Resources>
         <ControlTemplate x:Key="radioButtonTemplate" TargetType="RadioButton">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{TemplateBinding Tag}" />
-                <TextBlock Text="{TemplateBinding Content}" />
+                <TextBlock Text="{TemplateBinding Tag}" FontFamily="Segoe MDL2 Assets" FontSize="20" Padding="15"/>
+                <TextBlock Text="{TemplateBinding Content}" FontFamily="Segoe UI" FontSize="20" Margin="8,0,0,0"  VerticalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
     </Page.Resources>
-    <SplitView Name="shellView" IsPaneOpen="False" DisplayMode="Overlay">
-        <SplitView.Pane>
-            <StackPanel>
-                <RadioButton Tag="&#xe13d;" Content="" Template="{StaticResource radioButtonTemplate}"/>
-                <RadioButton Tag="&#xe0a5;" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
-                <RadioButton Tag="" Content="Listen Later" Template="{StaticResource radioButtonTemplate}"/>
-                <RadioButton Tag="" Content="Profile" Template="{StaticResource radioButtonTemplate}"/>
-            </StackPanel>
-        </SplitView.Pane>
-    </SplitView>
+    <StackPanel Background="White">
+        <StackPanel Orientation="Horizontal">
+            <Button Name="btnHamburger" Content="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
+            <TextBlock Text="8tracksWin" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <SplitView Name="shellView" IsPaneOpen="False" DisplayMode="Overlay">
+            <SplitView.Pane>
+                <StackPanel Background="Blue">
+                    <RadioButton Tag="&#xE0A5;" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
+                    <RadioButton Tag="" Content="Listen Later" Template="{StaticResource radioButtonTemplate}"/>
+                    <RadioButton Tag="" Content="Profile" Template="{StaticResource radioButtonTemplate}"/>
+                    <RadioButton Name="btnSignIn" Click="btnSignIn_Click" Tag="" Content="Sign In" Template="{StaticResource radioButtonTemplate}"/>
+                </StackPanel>
+            </SplitView.Pane>
+        </SplitView>
+    </StackPanel>
 </Page>

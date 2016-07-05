@@ -33,7 +33,36 @@ namespace _8tracksWin.Pages
             historyMixesLst.ItemsSource = historyMixes;
             trendingMixesLst.ItemsSource = trendingMixes;
 
+            if (GlobalConfigs.CurrentUser == null)
+                UpdateLoggedInUserViews(false);
+
             Loading += fetchHomePageMixSets;
+            GlobalConfigs.LoggedInUserExists += LoggedInUserStatusChange;
+        }
+
+        private void LoggedInUserStatusChange(object sender, bool isLoggedIn)
+        {
+            if (isLoggedIn && !mainPivot.Items.Contains(recommendedView))       //Double check if the views are already added to prevent duplicate addition
+                UpdateLoggedInUserViews(true);
+            else
+                UpdateLoggedInUserViews(false);
+                
+        }
+
+        private void UpdateLoggedInUserViews(bool toAdd)
+        {
+            if (toAdd)
+            {
+                mainPivot.Items.Add(recommendedView);
+                mainPivot.Items.Add(historyView);
+                mainPivot.Items.Add(listenLaterView);
+            }
+            else
+            {
+                mainPivot.Items.Remove(recommendedView);
+                mainPivot.Items.Remove(historyView);
+                mainPivot.Items.Remove(listenLaterView);
+            }
         }
 
         private void PopulateCollection(ObservableCollection<Mix> coll, Mix[] mixes)

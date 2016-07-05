@@ -11,6 +11,8 @@ namespace Common.Configuration
 
         static User currentUser = null;
 
+        public static event System.EventHandler<bool> LoggedInUserExists;
+
         public static User CurrentUser
         {
             get
@@ -27,8 +29,17 @@ namespace Common.Configuration
 
             set
             {
-                string serialisedObj = JsonConvert.SerializeObject(value);
-                localSettings.Values[currentUserConfigName] = serialisedObj;
+                if (value == null)
+                {
+                    localSettings.Values.Remove(currentUserConfigName);
+                    LoggedInUserExists(typeof(GlobalConfigs), false);
+                }
+                else
+                {
+                    string serialisedObj = JsonConvert.SerializeObject(value);
+                    localSettings.Values[currentUserConfigName] = serialisedObj;
+                    LoggedInUserExists(typeof(GlobalConfigs), true);
+                }
             }
         }
     }

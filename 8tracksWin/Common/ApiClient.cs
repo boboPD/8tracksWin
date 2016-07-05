@@ -7,8 +7,8 @@ namespace Common
 {
     public static class ApiClient
     {
-        static string devApiKey = "1814ff5a6d53aac74fc28827f0602d26ffc5d191";
-        static UriBuilder baseApiUri = new UriBuilder("https://8tracks.com/");
+        const string devApiKey = "1814ff5a6d53aac74fc28827f0602d26ffc5d191";
+        const string baseApiUri = "https://8tracks.com/";
 
         private static HttpRequestMessage CreateRequestObj(string methodPath, HttpMethod method, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams =  null)
         {
@@ -18,9 +18,10 @@ namespace Common
             else
                 queryParams = new Dictionary<string, string>() { { "api_version", "3" } };
 
-            baseApiUri.Query = CreateQueryStringFromParameters(queryParams);
-            baseApiUri.Path += methodPath;
-            HttpRequestMessage request = new HttpRequestMessage(method, baseApiUri.Uri);
+            UriBuilder baseApiUriBuilder = new UriBuilder(baseApiUri);
+            baseApiUriBuilder.Query = CreateQueryStringFromParameters(queryParams);
+            baseApiUriBuilder.Path += methodPath;
+            HttpRequestMessage request = new HttpRequestMessage(method, baseApiUriBuilder.Uri);
             request.Headers.Add("X-Api-Key", devApiKey);
             if (Configuration.GlobalConfigs.CurrentUser != null)
                 request.Headers.Add("X-User-Token", Configuration.GlobalConfigs.CurrentUser.UserToken);
