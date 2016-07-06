@@ -33,9 +33,7 @@ namespace _8tracksWin.Pages
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            StackPanel shellMainPanel = (StackPanel)((Shell)Window.Current.Content).Content;
-            Frame f = (Frame)((SplitView)(shellMainPanel.Children[1])).Content;
-            f.Navigate(typeof(LoginPage));
+            ContentFrame.Navigate(typeof(LoginPage));
         }
     }
 }

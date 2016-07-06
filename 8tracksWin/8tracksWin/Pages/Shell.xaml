@@ -15,12 +15,16 @@
             </StackPanel>
         </ControlTemplate>
     </Page.Resources>
-    <StackPanel Background="White">
-        <StackPanel Orientation="Horizontal">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Name="btnHamburger" Content="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
             <TextBlock Text="8tracksWin" HorizontalAlignment="Center"/>
         </StackPanel>
-        <SplitView Name="shellView" IsPaneOpen="False" DisplayMode="Overlay">
+        <SplitView Name="shellView" IsPaneOpen="False" DisplayMode="Overlay" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel Background="Blue">
                     <RadioButton Tag="&#xE0A5;" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
@@ -30,5 +34,5 @@
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
-    </StackPanel>
+    </Grid>
 </Page>
