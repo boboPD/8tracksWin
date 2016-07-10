@@ -17,7 +17,9 @@ namespace Common.Search
             LIKED,
             LISTEN_LATER,
             FEED,
-            PUBLISHED
+            PUBLISHED,
+            TRENDING,
+            HISTORY
         }
 
         const string mixSearchBaseUri = "mix_sets/";
@@ -55,6 +57,9 @@ namespace Common.Search
                 case ListType.PUBLISHED:
                     s = "dj";
                     break;
+                case ListType.HISTORY:
+                    s = "listened";
+                    break;
                 default:
                     throw new System.ArgumentException("Invalid ListType argument passed");
             }
@@ -62,15 +67,22 @@ namespace Common.Search
             return s;
         }
 
-        private static async Task<MixSet> SearchMixes(string actionMethod)
+        private static async Task<SearchResult> SearchMixes(string actionMethod, int pageNumber = 1)
         {
-            HttpResponseMessage response = await ApiClient.GetAsync(actionMethod, null, new Dictionary<string, string>() { { "include", "mixes" } });
+            HttpResponseMessage response = await ApiClient.GetAsync(actionMethod, null, new Dictionary<string, string>() { { "include", "mixes+pagination" }, { "page", pageNumber.ToString() } });
             JObject resObj = JObject.Parse(await response.Content.ReadAsStringAsync());
-            MixSet results = JsonConvert.DeserializeObject<MixSet>(resObj.SelectToken("$.mix_set").ToString());
+            SearchResult results = new SearchResult(JsonConvert.DeserializeObject<MixSet>(resObj.SelectToken("$.mix_set").ToString()));
+
             return results;
         }
 
-        public static async Task<MixSet> SearchMixesByTags(List<string> tags)
+        public static async Task<SearchResult> GetPageForSet(string webPathToMix, int pageToGet)
+        {
+            webPathToMix = webPathToMix + ".json";
+            return (await SearchMixes(webPathToMix, pageToGet));
+        }
+
+        public static async Task<SearchResult> SearchMixesByTags(List<string> tags)
         {
             StringBuilder smartIdbuilder = new StringBuilder();
             foreach (string tag in tags)
@@ -85,20 +97,20 @@ namespace Common.Search
             return (await SearchMixes(actionMethod));
         }
 
-        public static async Task<MixSet> SearchMixesByArtist(string artist)
+        public static async Task<SearchResult> SearchMixesByArtist(string artist)
         {
             string smartID = CreateSmartID("artist", artist);
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartID);
             return (await SearchMixes(actionMethod));
         }
 
-        public static async Task<MixSet> FetchTrendingMixes()
+        public static async Task<SearchResult> FetchTrendingMixes()
         {
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, CreateSmartID("all", sortType: "popular"));
             return (await SearchMixes(actionMethod));
         }
 
-        public static async Task<MixSet> FetchMixesforUser(ListType type, int userId)
+        public static async Task<SearchResult> FetchMixesforUser(ListType type, int userId)
         {
             string smartId = CreateSmartID(ConvertListTypeToString(type), userId.ToString());
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}.json", mixSearchBaseUri, smartId);
