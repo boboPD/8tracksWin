@@ -7,6 +7,7 @@ using Common.Search;
 using Common.Model;
 using Common.Configuration;
 using Windows.UI.Core;
+using _8tracksWin.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -17,27 +18,14 @@ namespace _8tracksWin.Pages
     /// </summary>
     public sealed partial class HomePage : Page
     {
-        ObservableCollection<Mix> trendingMixes { get; set; }
-        ObservableCollection<Mix> recommendedMixes { get; set; }
-        ObservableCollection<Mix> listenlaterMixes { get; set; }
-        ObservableCollection<Mix> historyMixes { get; set; }
-
-        System.Collections.Generic.Dictionary<MixSearch.ListType, SearchResult> searchResults;
+        MixCollection trendingMixes { get; set; }
+        MixCollection recommendedMixes { get; set; }
+        MixCollection listenlaterMixes { get; set; }
+        MixCollection historyMixes { get; set; }
 
         public HomePage()
         {
             this.InitializeComponent();
-            trendingMixes = new ObservableCollection<Mix>();
-            recommendedMixes = new ObservableCollection<Mix>();
-            listenlaterMixes = new ObservableCollection<Mix>();
-            historyMixes = new ObservableCollection<Mix>();
-
-            searchResults = new System.Collections.Generic.Dictionary<MixSearch.ListType, SearchResult>();
-
-            recommendedMixesLst.ItemsSource = recommendedMixes;
-            listenLaterMixesLst.ItemsSource = listenlaterMixes;
-            historyMixesLst.ItemsSource = historyMixes;
-            trendingMixesLst.ItemsSource = trendingMixes;
 
             if (GlobalConfigs.CurrentUser == null)
                 UpdateLoggedInUserViews(false);
@@ -71,7 +59,7 @@ namespace _8tracksWin.Pages
             }
         }
 
-        private void PopulateCollection(ObservableCollection<Mix> coll, Mix[] mixes)
+        private void PopulateCollection(MixCollection coll, Mix[] mixes)
         {
             foreach (var item in mixes)
             {
@@ -81,23 +69,23 @@ namespace _8tracksWin.Pages
 
         private async void fetchHomePageMixSets(FrameworkElement sender, object args)
         {
-            SearchResult trendingMixes = await MixSearch.FetchTrendingMixes();
-            PopulateCollection(this.trendingMixes, trendingMixes.ResultSet.mixes);
-            searchResults.Add(MixSearch.ListType.TRENDING, trendingMixes);
+            SearchResult trendingMixesSearch = await MixSearch.FetchTrendingMixes();
+            trendingMixes = new MixCollection(trendingMixesSearch);
+            trendingMixesLst.ItemsSource = trendingMixes;
 
             if (GlobalConfigs.CurrentUser != null)
             {
                 Task<SearchResult> fetchRecommendedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.RECOMMENDED, GlobalConfigs.CurrentUser.UserId);
                 Task<SearchResult> fetchListenLaterMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.LISTEN_LATER, GlobalConfigs.CurrentUser.UserId);
                 Task<SearchResult> fetchRecentlyPlayedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.HISTORY, GlobalConfigs.CurrentUser.UserId);
-
+                
                 fetchRecentlyPlayedMixesTask.ContinueWith((res) =>
                 {
-                    PopulateCollection(this.historyMixes, res.Result.ResultSet.mixes);
-                    searchResults.Add(MixSearch.ListType.HISTORY, res.Result);
+                    historyMixes = new MixCollection(res.Result);
                     Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                             {
+                                historyMixesLst.ItemsSource = historyMixes;
                                 historyMixesLst.Visibility = Visibility.Visible;
                             }
                     );
@@ -105,11 +93,11 @@ namespace _8tracksWin.Pages
                 });
                 fetchListenLaterMixesTask.ContinueWith((res) =>
                 {
-                    PopulateCollection(this.listenlaterMixes, res.Result.ResultSet.mixes);
-                    searchResults.Add(MixSearch.ListType.LISTEN_LATER, res.Result);
+                    listenlaterMixes = new MixCollection(res.Result);
                     Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                             {
+                                listenLaterMixesLst.ItemsSource = listenlaterMixes;
                                 listenLaterMixesLst.Visibility = Visibility.Visible;
                             }
                     );
@@ -117,8 +105,7 @@ namespace _8tracksWin.Pages
                 });
                 fetchRecommendedMixesTask.ContinueWith((res) =>
                 {
-                    PopulateCollection(this.recommendedMixes, res.Result.ResultSet.mixes);
-                    searchResults.Add(MixSearch.ListType.RECOMMENDED, res.Result);
+                    recommendedMixes = new MixCollection(res.Result);
                     Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                             {
