@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Common.Search;
 using Common.Model;
 using Common.Configuration;
+using Windows.UI.Core;
+using _8tracksWin.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -15,23 +18,14 @@ namespace _8tracksWin.Pages
     /// </summary>
     public sealed partial class HomePage : Page
     {
-        public ObservableCollection<Mix> trendingMixes { get; set; }
-        public ObservableCollection<Mix> recommendedMixes { get; set; }
-        public ObservableCollection<Mix> listenlaterMixes { get; set; }
-        public ObservableCollection<Mix> historyMixes { get; set; }
+        MixCollection trendingMixes { get; set; }
+        MixCollection recommendedMixes { get; set; }
+        MixCollection listenlaterMixes { get; set; }
+        MixCollection historyMixes { get; set; }
 
         public HomePage()
         {
             this.InitializeComponent();
-            trendingMixes = new ObservableCollection<Mix>();
-            recommendedMixes = new ObservableCollection<Mix>();
-            listenlaterMixes = new ObservableCollection<Mix>();
-            historyMixes = new ObservableCollection<Mix>();
-
-            recommendedMixesLst.ItemsSource = recommendedMixes;
-            listenLaterMixesLst.ItemsSource = listenlaterMixes;
-            historyMixesLst.ItemsSource = historyMixes;
-            trendingMixesLst.ItemsSource = trendingMixes;
 
             if (GlobalConfigs.CurrentUser == null)
                 UpdateLoggedInUserViews(false);
@@ -46,7 +40,7 @@ namespace _8tracksWin.Pages
                 UpdateLoggedInUserViews(true);
             else
                 UpdateLoggedInUserViews(false);
-                
+
         }
 
         private void UpdateLoggedInUserViews(bool toAdd)
@@ -65,7 +59,7 @@ namespace _8tracksWin.Pages
             }
         }
 
-        private void PopulateCollection(ObservableCollection<Mix> coll, Mix[] mixes)
+        private void PopulateCollection(MixCollection coll, Mix[] mixes)
         {
             foreach (var item in mixes)
             {
@@ -75,16 +69,50 @@ namespace _8tracksWin.Pages
 
         private async void fetchHomePageMixSets(FrameworkElement sender, object args)
         {
-            MixSet fetchTrendingMixes = await MixSearch.FetchTrendingMixes();
-            PopulateCollection(trendingMixes, fetchTrendingMixes.mixes);
+            SearchResult trendingMixesSearch = await MixSearch.FetchTrendingMixes();
+            trendingMixes = new MixCollection(trendingMixesSearch);
+            trendingMixesLst.ItemsSource = trendingMixes;
 
             if (GlobalConfigs.CurrentUser != null)
             {
-                Task<MixSet> fetchRecommendedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.RECOMMENDED, GlobalConfigs.CurrentUser.UserId);
+                Task<SearchResult> fetchRecommendedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.RECOMMENDED, GlobalConfigs.CurrentUser.UserId);
+                Task<SearchResult> fetchListenLaterMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.LISTEN_LATER, GlobalConfigs.CurrentUser.UserId);
+                Task<SearchResult> fetchRecentlyPlayedMixesTask = MixSearch.FetchMixesforUser(MixSearch.ListType.HISTORY, GlobalConfigs.CurrentUser.UserId);
+                
+                fetchRecentlyPlayedMixesTask.ContinueWith((res) =>
+                {
+                    historyMixes = new MixCollection(res.Result);
+                    Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () =>
+                            {
+                                historyMixesLst.ItemsSource = historyMixes;
+                                historyMixesLst.Visibility = Visibility.Visible;
+                            }
+                    );
 
-                await Task.WhenAll<MixSet>(fetchRecommendedMixesTask);
-
-                PopulateCollection(recommendedMixes, fetchRecommendedMixesTask.Result.mixes);
+                });
+                fetchListenLaterMixesTask.ContinueWith((res) =>
+                {
+                    listenlaterMixes = new MixCollection(res.Result);
+                    Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () =>
+                            {
+                                listenLaterMixesLst.ItemsSource = listenlaterMixes;
+                                listenLaterMixesLst.Visibility = Visibility.Visible;
+                            }
+                    );
+                    
+                });
+                fetchRecommendedMixesTask.ContinueWith((res) =>
+                {
+                    recommendedMixes = new MixCollection(res.Result);
+                    Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () =>
+                            {
+                                recommendedMixesLst.Visibility = Visibility.Visible;
+                            }
+                    );
+                });
             }
         }
     }
