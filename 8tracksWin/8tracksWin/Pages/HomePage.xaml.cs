@@ -30,7 +30,7 @@ namespace _8tracksWin.Pages
             if (GlobalConfigs.CurrentUser == null)
                 UpdateLoggedInUserViews(false);
 
-            Loading += fetchHomePageMixSets;
+            Loading += FetchHomePageMixSets;
             GlobalConfigs.LoggedInUserExists += LoggedInUserStatusChange;
         }
 
@@ -67,7 +67,7 @@ namespace _8tracksWin.Pages
             }
         }
 
-        private async void fetchHomePageMixSets(FrameworkElement sender, object args)
+        private async void FetchHomePageMixSets(FrameworkElement sender, object args)
         {
             SearchResult trendingMixesSearch = await MixSearch.FetchTrendingMixes();
             trendingMixes = new MixCollection(trendingMixesSearch);
@@ -114,6 +114,12 @@ namespace _8tracksWin.Pages
                     );
                 });
             }
+        }
+
+        private void OnMixSelected(object sender, ItemClickEventArgs e)
+        {
+            Mix selectedMix = (Mix)e.ClickedItem;
+            this.Frame.Navigate(typeof(NowPlayingPage), selectedMix);
         }
     }
 }

@@ -9,18 +9,16 @@
 
     <Pivot Name="mainPivot">
         <PivotItem Name="trendingView" Header="Trending">
-            <ListView Name="trendingMixesLst" DisplayMemberPath="name">
-                
-            </ListView>
+            <ListView Name="trendingMixesLst" DisplayMemberPath="name" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="recommendedView" Header="Recommended">
-            <ListView Name="recommendedMixesLst" Visibility="Collapsed"/>
+            <ListView Name="recommendedMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="historyView" Header="Recently Played">
-            <ListView Name="historyMixesLst" Visibility="Collapsed"/>
+            <ListView Name="historyMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="listenLaterView" Header="Listen Later">
-            <ListView Name="listenLaterMixesLst" Visibility="Collapsed"/>
+            <ListView Name="listenLaterMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
         </PivotItem>
     </Pivot>
 </Page>
