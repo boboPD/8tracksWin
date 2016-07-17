@@ -13,12 +13,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <RelativePanel Name="mixInfoPanel" Grid.Row="0">
-            <Image Name="mixImage" MaxHeight="200" MaxWidth="200" Source="{Binding Path=cover_urls.max200}" />
-            <TextBlock Name="mixName" Text="{Binding Path=name}" RelativePanel.RightOf="mixImage" />
-            <TextBlock Name="mixDJ" Text="{Binding Path=user_id}" RelativePanel.Below="mixName" RelativePanel.AlignLeftWith="mixName"/>
-            <TextBlock Name="mixTags" Text="{Binding Path=tag_list_cache}" RelativePanel.Below="mixDJ" RelativePanel.AlignLeftWith="mixDJ"/>
+        <RelativePanel Name="mixInfoPanel" Grid.Row="0" Padding="20,0,20,0">
+            <Image Name="mixImage" MaxHeight="200" MaxWidth="200" Source="{Binding Path=cover_urls.max200}"/>
+            <TextBlock Name="mixName" Text="{Binding Path=name}" RelativePanel.RightOf="mixImage" Padding="25"/>
+            <TextBlock Name="mixDJ" Text="{Binding Path=user_id}" RelativePanel.Below="mixName" RelativePanel.AlignLeftWith="mixName" Padding="25"/>
+            <TextBlock Name="mixTags" Text="{Binding Path=tag_list_cache}" RelativePanel.Below="mixDJ" RelativePanel.AlignLeftWith="mixDJ" Padding="25"/>
+            <MediaElement Name="player" />
         </RelativePanel>
-        <ListView Grid.Row="1"/>
+        
+        <!--<ListView Grid.Row="1"/>-->
     </Grid>
 </Page>

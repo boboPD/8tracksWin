@@ -25,7 +25,7 @@ namespace Common
             GlobalConfigs.CurrentUser.PlayToken = JObject.Parse(content).SelectToken("$.play_token").Value<string>();
         }
 
-        public static async Task<CurrentMix> Play(int mixId, ChangeSongUserAction action)
+        public static async Task<CurrentMixProperties> Play(int mixId, ChangeSongUserAction action)
         {
             string actionTxt;
             switch (action)
@@ -48,7 +48,8 @@ namespace Common
 
             string actionMethod = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}/{2}.json", actionMethodBaseUri, GlobalConfigs.CurrentUser.PlayToken, actionTxt);
             HttpResponseMessage res = await ApiClient.GetAsync(actionMethod, queryParams: new Dictionary<string, string>() { { "mix_id", mixId.ToString() } });
-            CurrentMix mix = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrentMix>(await res.Content.ReadAsStringAsync());
+            JObject resObj = JObject.Parse(await res.Content.ReadAsStringAsync());
+            CurrentMixProperties mix = Newtonsoft.Json.JsonConvert.DeserializeObject<CurrentMixProperties>(resObj.SelectToken("$.set").ToString());
 
             return mix;
         }

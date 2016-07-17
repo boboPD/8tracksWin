@@ -11,14 +11,20 @@ namespace _8tracksWin.Pages
     /// </summary>
     public sealed partial class NowPlayingPage : Page
     {
+        CurrentMixProperties mixProps;
+        Mix currentMix;
+
         public NowPlayingPage()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             this.mainGrid.DataContext = (Mix)e.Parameter;
+            currentMix = (Mix)e.Parameter;
+            mixProps = await Common.Music.Play(currentMix.id, Common.Music.ChangeSongUserAction.PLAY);
+            player.Source = new System.Uri(mixProps.track.track_file_stream_url);
         }
     }
 }
