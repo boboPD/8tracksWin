@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="_8tracksWin.Pages.NowPlayingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:_8tracksWin.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Name="mainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <RelativePanel Name="mixInfoPanel" Grid.Row="0" Padding="20,0,20,0">
+            <Image Name="mixImage" MaxHeight="200" MaxWidth="200" Source="{Binding Path=cover_urls.max200}"/>
+            <TextBlock Name="mixName" Text="{Binding Path=name}" RelativePanel.RightOf="mixImage" Padding="25"/>
+            <TextBlock Name="mixDJ" Text="{Binding Path=user_id}" RelativePanel.Below="mixName" RelativePanel.AlignLeftWith="mixName" Padding="25"/>
+            <TextBlock Name="mixTags" Text="{Binding Path=tag_list_cache}" RelativePanel.Below="mixDJ" RelativePanel.AlignLeftWith="mixDJ" Padding="25"/>
+            <MediaElement Name="player" />
+        </RelativePanel>
+        
+        <!--<ListView Grid.Row="1"/>-->
+    </Grid>
+</Page>

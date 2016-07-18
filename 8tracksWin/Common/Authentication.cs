@@ -24,7 +24,9 @@ namespace Common
                 {
                     string usertoken = responseObj.SelectToken("$.user.user_token").Value<string>();
                     int userid = responseObj.SelectToken("$.user.id").Value<int>();
-                    GlobalConfigs.CurrentUser = new Model.User(userid, usertoken);
+                    Model.LoggedInUserInfo temp = new Model.LoggedInUserInfo();
+                    await temp.InitialiseLoggedInUserInfo(userid, usertoken);
+                    GlobalConfigs.CurrentUser = temp;
                     return true;
                 }
             }

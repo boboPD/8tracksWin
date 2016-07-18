@@ -5,4 +5,7 @@
     xmlns:local="using:_8tracksWin"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <SolidColorBrush x:Key="ThemeColour">#2F364A</SolidColorBrush>
+    </Application.Resources>
 </Application>

@@ -10,8 +10,8 @@
     <Page.Resources>
         <ControlTemplate x:Key="radioButtonTemplate" TargetType="RadioButton">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{TemplateBinding Tag}" FontFamily="Segoe MDL2 Assets" FontSize="20" Padding="15"/>
-                <TextBlock Text="{TemplateBinding Content}" FontFamily="Segoe UI" FontSize="20" Margin="8,0,0,0"  VerticalAlignment="Center"/>
+                <TextBlock Text="{TemplateBinding Tag}" Foreground="White" FontFamily="Segoe MDL2 Assets" FontSize="15" Padding="15"/>
+                <TextBlock Text="{TemplateBinding Content}" Foreground="White" FontFamily="Segoe UI" FontSize="15" Margin="8,0,0,0"  VerticalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
     </Page.Resources>
@@ -21,12 +21,21 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Name="btnHamburger" Content="&#xE700;" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
+            <Button Name="btnHamburger" Foreground="White" Content="&#xE700;" Background="{StaticResource ThemeColour}" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
             <TextBlock Text="8tracksWin" HorizontalAlignment="Center"/>
         </StackPanel>
         <SplitView Name="shellView" IsPaneOpen="False" Grid.Row="1">
             <SplitView.Pane>
-                <StackPanel Background="Blue">
+                <StackPanel Background="{StaticResource ThemeColour}">
+                    <RelativePanel Name="userDetailsPanel">
+                        <Image Name="profilePic" MaxHeight="72" MaxWidth="72" Source="{Binding Path=AvatarUrlsObj.sq72}" />
+                        <TextBlock Name="nameTxt" Foreground="White" Text="{Binding Path=Name}" RelativePanel.RightOf="profilePic"/>
+                        <TextBlock Name="addressTxt" Foreground="White" Text="{Binding Path=Location}" RelativePanel.Below="nameTxt" RelativePanel.AlignLeftWith="nameTxt"/>
+                        <TextBlock Name="followCounts" Foreground="White" Text="{Binding Path=FollowCounts}" RelativePanel.Below="addressTxt" RelativePanel.AlignLeftWith="nameTxt" />
+                        <TextBlock Foreground="White" Text="{Binding Path=PublishedMixesCount}" RelativePanel.Below="followCounts" RelativePanel.AlignLeftWith="nameTxt" />
+                    </RelativePanel>
+                    <RadioButton Tag="" Content="Home" Template="{StaticResource radioButtonTemplate}" />
+                    <RadioButton Tag="" Content="Seach" Template="{StaticResource radioButtonTemplate}" />
                     <RadioButton Tag="&#xE0A5;" Content="Liked" Template="{StaticResource radioButtonTemplate}"/>
                     <RadioButton Tag="" Content="Listen Later" Template="{StaticResource radioButtonTemplate}"/>
                     <RadioButton Tag="" Content="Profile" Template="{StaticResource radioButtonTemplate}"/>

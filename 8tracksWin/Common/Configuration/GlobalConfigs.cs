@@ -9,11 +9,11 @@ namespace Common.Configuration
 
         static Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
-        static User currentUser = null;
+        static LoggedInUserInfo currentUser = null;
 
         public static event System.EventHandler<bool> LoggedInUserExists;
 
-        public static User CurrentUser
+        public static LoggedInUserInfo CurrentUser
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Common.Configuration
                 {
                     object val = localSettings.Values[currentUserConfigName];
                     if (val != null)
-                        currentUser = JsonConvert.DeserializeObject<User>((string)val);
+                        currentUser = JsonConvert.DeserializeObject<LoggedInUserInfo>((string)val);
                 }
 
                 return currentUser;

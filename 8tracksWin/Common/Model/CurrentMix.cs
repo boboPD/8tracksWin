@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
-    public class CurrentMix
+    public class CurrentMixProperties
     {
         public bool at_beginning { get; set; }
         public bool at_end { get; set; }

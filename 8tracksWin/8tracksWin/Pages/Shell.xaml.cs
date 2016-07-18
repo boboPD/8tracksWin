@@ -12,11 +12,23 @@ namespace _8tracksWin.Pages
     public sealed partial class Shell : Page
     {
         public static Frame ContentFrame { get; private set; }
+
         public Shell(Frame frame)
         {
             this.InitializeComponent();
             this.shellView.Content = frame;
             ContentFrame = frame;
+
+            if (GlobalConfigs.CurrentUser != null)
+            {
+                btnSignIn.Visibility = Visibility.Collapsed;
+                GlobalConfigs.CurrentUser.RefreshData();
+                userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
+                userDetailsPanel.Visibility = Visibility.Visible;
+            }
+            else
+                btnSignIn.Visibility = Visibility.Visible;
+            
             GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
         }
 
@@ -27,7 +39,16 @@ namespace _8tracksWin.Pages
 
         private void SignedInUserStatusChangeHandler(object sender, bool signedInUserExists)
         {
-            btnSignIn.Visibility = signedInUserExists ? Visibility.Collapsed : Visibility.Visible;
+            if(signedInUserExists)
+            {
+                btnSignIn.Visibility = Visibility.Collapsed;
+                userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
+                userDetailsPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnSignIn.Visibility = Visibility.Visible;
+            }
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
