@@ -17,7 +17,6 @@ namespace _8tracksWin.Pages
             this.InitializeComponent();
             this.shellView.Content = frame;
             ContentFrame = frame;
-            btnSignIn.Visibility = GlobalConfigs.CurrentUser == null ? Visibility.Visible : Visibility.Collapsed;
             GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
         }
 
