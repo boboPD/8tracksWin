@@ -5,11 +5,12 @@
     xmlns:local="using:_8tracksWin.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Background="LightGray">
 
     <Pivot Name="mainPivot">
         <PivotItem Name="trendingView" Header="Trending">
-            <ListView Name="trendingMixesLst" DisplayMemberPath="name" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
+            <ListView Name="trendingMixesLst" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="recommendedView" Header="Recommended">
             <ListView Name="recommendedMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
@@ -20,5 +21,26 @@
         <PivotItem Name="listenLaterView" Header="Listen Later">
             <ListView Name="listenLaterMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
         </PivotItem>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="mixListViewState">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1080" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixListViewWide}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixListViewSmall}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Pivot>
 </Page>

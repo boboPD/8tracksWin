@@ -7,5 +7,73 @@
 
     <Application.Resources>
         <SolidColorBrush x:Key="ThemeColour">#2F364A</SolidColorBrush>
+
+        <Style x:Key="mixListView" TargetType="ListView">
+            <Setter Property="IsItemClickEnabled" Value="True" />
+        </Style>
+        
+        <Style x:Key="mixListViewWide" TargetType="ListView" BasedOn="{StaticResource mixListView}">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <RelativePanel Name="mixDisplayPanel" MaxWidth="500" Margin="10">
+                            <Image Name ="mixImg" Source="{Binding Path=cover_urls.max200}" MaxHeight="200" MaxWidth="200"  Margin="5" VerticalAlignment="Center"/>
+                            <TextBlock Name="mixName" Text="{Binding Path=name}" FontSize="24" RelativePanel.RightOf="mixImg" TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" LineHeight="28" MaxHeight="84"/>
+                            <StackPanel Name ="mixInfoPanel" Orientation="Horizontal" RelativePanel.Below="mixName" RelativePanel.AlignLeftWith="mixName">
+                                <StackPanel.Resources>
+                                    <Style x:Key="iconLbls" TargetType="TextBlock">
+                                        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                                        <Setter Property="FontSize" Value="13" />
+                                    </Style>
+                                    <Style x:Key="countLbls" TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="0,0,10,0" />
+                                        <Setter Property="FontFamily" Value="Segoe UI" />
+                                        <Setter Property="FontSize" Value="13" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}"/>
+                                <TextBlock Text="{Binding Path=plays_count}" Style="{StaticResource countLbls}"/>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}" />
+                                <TextBlock Text="{Binding Path=likes_count}" Style="{StaticResource countLbls}"/>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}" />
+                                <TextBlock Text="{Binding Path=tracks_count}" Style="{StaticResource countLbls}"/>
+                            </StackPanel>
+                        </RelativePanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="mixListViewSmall" TargetType="ListView" BasedOn="{StaticResource mixListView}">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <StackPanel Name="mixDisplayPanel" MaxWidth="350" Padding="7" Margin="5" >
+                            <TextBlock Name="mixName" Text="{Binding Path=name}" FontSize="18" TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" Margin="5" LineHeight="22" MaxHeight="22"/>
+                            <Image Name ="mixImg" Source="{Binding Path=cover_urls.max200}" Stretch="UniformToFill" MaxHeight="133" MaxWidth="350" VerticalAlignment="Center"/>
+                            <StackPanel Name ="mixInfoPanel" Orientation="Horizontal" Margin="5">
+                                <StackPanel.Resources>
+                                    <Style x:Key="iconLbls" TargetType="TextBlock">
+                                        <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                                        <Setter Property="FontSize" Value="11" />
+                                    </Style>
+                                    <Style x:Key="countLbls" TargetType="TextBlock">
+                                        <Setter Property="Margin" Value="0,0,10,0" />
+                                        <Setter Property="FontFamily" Value="Segoe UI" />
+                                        <Setter Property="FontSize" Value="11" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}"/>
+                                <TextBlock Text="{Binding Path=plays_count}" Style="{StaticResource countLbls}"/>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}" />
+                                <TextBlock Text="{Binding Path=likes_count}" Style="{StaticResource countLbls}"/>
+                                <TextBlock Text="" Style="{StaticResource iconLbls}" />
+                                <TextBlock Text="{Binding Path=tracks_count}" Style="{StaticResource countLbls}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
