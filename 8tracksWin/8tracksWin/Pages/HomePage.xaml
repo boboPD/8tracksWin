@@ -10,26 +10,26 @@
 
     <Pivot Name="mainPivot">
         <PivotItem Name="trendingView" Header="Trending">
-            <ListView Name="trendingMixesLst" ItemClick="OnMixSelected" />
+            <GridView Name="trendingMixesLst" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="recommendedView" Header="Recommended">
-            <ListView Name="recommendedMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
+            <GridView Name="recommendedMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="historyView" Header="Recently Played">
-            <ListView Name="historyMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
+            <GridView Name="historyMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
         </PivotItem>
         <PivotItem Name="listenLaterView" Header="Listen Later">
-            <ListView Name="listenLaterMixesLst" Visibility="Collapsed" IsItemClickEnabled="True" IsHoldingEnabled="False" ItemClick="OnMixSelected" />
+            <GridView Name="listenLaterMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
         </PivotItem>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="mixListViewState">
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1080" />
+                        <AdaptiveTrigger MinWindowWidth="540" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixListViewWide}" />
+                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixGridViewWide}" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -37,7 +37,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixListViewSmall}" />
+                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixGridViewSmall}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

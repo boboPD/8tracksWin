@@ -53,6 +53,7 @@ namespace _8tracksWin.Pages
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
+            shellView.IsPaneOpen = false;
             ContentFrame.Navigate(typeof(LoginPage));
         }
     }
