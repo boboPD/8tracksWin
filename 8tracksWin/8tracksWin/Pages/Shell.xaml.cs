@@ -22,12 +22,16 @@ namespace _8tracksWin.Pages
             if (GlobalConfigs.CurrentUser != null)
             {
                 btnSignIn.IsChecked = true;
+                btnSignIn.Content = "Sign out";
                 GlobalConfigs.CurrentUser.RefreshData();
                 userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
                 userDetailsPanel.Visibility = Visibility.Visible;
             }
             else
+            {
                 btnSignIn.IsChecked = false;
+                btnSignIn.Content = "Sign in";
+            }
             
             GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
         }
@@ -53,8 +57,10 @@ namespace _8tracksWin.Pages
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            shellView.IsPaneOpen = false;
-            ContentFrame.Navigate(typeof(LoginPage));
+            if (((Windows.UI.Xaml.Controls.Primitives.ToggleButton)sender).Content.Equals("Sign in"))
+                ContentFrame.Navigate(typeof(LoginPage));
+            else
+                Common.Authentication.Logout();
         }
     }
 }

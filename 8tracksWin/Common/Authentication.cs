@@ -34,6 +34,14 @@ namespace Common
             return false;
         }
 
+        public static void Logout()
+        {
+            if (GlobalConfigs.CurrentUser == null)
+                throw new System.Exception("No user currently logged in");
+            else
+                GlobalConfigs.CurrentUser = null;
+        }
+
         public static bool LoginFacebook()
         {
             return true;
