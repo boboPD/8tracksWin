@@ -21,13 +21,13 @@ namespace _8tracksWin.Pages
 
             if (GlobalConfigs.CurrentUser != null)
             {
-                btnSignIn.Visibility = Visibility.Collapsed;
+                btnSignIn.IsChecked = true;
                 GlobalConfigs.CurrentUser.RefreshData();
                 userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
                 userDetailsPanel.Visibility = Visibility.Visible;
             }
             else
-                btnSignIn.Visibility = Visibility.Visible;
+                btnSignIn.IsChecked = false;
             
             GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
         }
