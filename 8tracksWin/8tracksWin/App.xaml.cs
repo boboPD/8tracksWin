@@ -57,18 +57,47 @@ namespace _8tracksWin
                 }
 
                 // Place the frame in the current Window
-                Window.Current.Content = new Pages.Shell(rootFrame);
+                InitialiseRootFrame(rootFrame);
+
+                Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkStatusChanged;
             }
 
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
-                rootFrame.Navigate(typeof(Pages.HomePage), e.Arguments);
-            }
+            
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private void InitialiseRootFrame(Frame rootFrame)
+        {
+            var networkProfile = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
+            if (networkProfile != null && networkProfile.GetNetworkConnectivityLevel() == Windows.Networking.Connectivity.NetworkConnectivityLevel.InternetAccess)
+            {
+                Window.Current.Content = new Pages.Shell(rootFrame);
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(Pages.HomePage));
+                }
+            }
+            else
+            {
+                rootFrame.Content = new TextBlock()
+                {
+                    Text = "No internet connectivity",
+                    FontSize = 22,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                Window.Current.Content = rootFrame;
+            }
+        }
+
+        private void NetworkStatusChanged(object sender)
+        {
+            Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                () => { InitialiseRootFrame(new Frame()); });
         }
 
         /// <summary>
