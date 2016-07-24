@@ -40,29 +40,24 @@ namespace _8tracksWin
             }
 #endif
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            Pages.Shell rootShell = Window.Current.Content as Pages.Shell;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (rootShell == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
                 }
 
                 // Place the frame in the current Window
-                InitialiseRootFrame(rootFrame);
-
-                Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkStatusChanged;
+                InitialiseRootFrame(new Frame());
             }
 
-            
+            Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkStatusChanged;
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += NavigationHelper.OnBackRequested;
+
             // Ensure the current window is active
             Window.Current.Activate();
         }
@@ -73,6 +68,7 @@ namespace _8tracksWin
             if (networkProfile != null && networkProfile.GetNetworkConnectivityLevel() == Windows.Networking.Connectivity.NetworkConnectivityLevel.InternetAccess)
             {
                 Window.Current.Content = new Pages.Shell(rootFrame);
+                rootFrame.NavigationFailed += OnNavigationFailed;
                 if (rootFrame.Content == null)
                 {
                     // When the navigation stack isn't restored navigate to the first page,

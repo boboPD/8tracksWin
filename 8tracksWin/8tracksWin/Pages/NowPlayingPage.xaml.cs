@@ -21,10 +21,12 @@ namespace _8tracksWin.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationHelper.SetTitleBarBackButton();
+
             this.mainGrid.DataContext = (Mix)e.Parameter;
             currentMix = (Mix)e.Parameter;
             mixProps = await Common.Music.Play(currentMix.id, Common.Music.ChangeSongUserAction.PLAY);
-            player.Source = new System.Uri(mixProps.track.track_file_stream_url);
+            //player.Source = new System.Uri(mixProps.track.track_file_stream_url);
         }
     }
 }

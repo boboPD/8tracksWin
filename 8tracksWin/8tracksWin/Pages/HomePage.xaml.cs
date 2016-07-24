@@ -8,6 +8,7 @@ using Common.Model;
 using Common.Configuration;
 using Windows.UI.Core;
 using _8tracksWin.ViewModel;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -32,6 +33,11 @@ namespace _8tracksWin.Pages
 
             Loading += FetchHomePageMixSets;
             GlobalConfigs.LoggedInUserExists += LoggedInUserStatusChange;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            NavigationHelper.SetTitleBarBackButton();
         }
 
         private void LoggedInUserStatusChange(object sender, bool isLoggedIn)
