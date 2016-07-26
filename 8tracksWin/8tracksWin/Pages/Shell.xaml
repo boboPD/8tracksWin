@@ -37,6 +37,30 @@
                 </VisualStateManager.VisualStateGroups>
             </Grid>
         </ControlTemplate>
+        <ControlTemplate x:Key="signInBtnTemplate" TargetType="Button">
+            <Grid Name="signInBtnPanel">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="" Foreground="White" FontFamily="Segoe MDL2 Assets" FontSize="15" Padding="15" />
+                <TextBlock Grid.Column="1" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates" >
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Target="signInBtnPanel.Background" Value="{StaticResource HoverThemeColour}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Target="signInBtnPanel.Background" Value="{StaticResource HoverThemeColour}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Grid>
+        </ControlTemplate>
     </Page.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -63,9 +87,8 @@
                         <ListViewItem Tag="" Content="Seach" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                         <ListViewItem Tag="&#xE0A5;" Content="Liked" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                         <ListViewItem Tag="" Content="Listen Later" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
-                        <ListViewItem Tag="" Content="Profile" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                     </ListView>
-                    <ToggleButton Padding="10" Name="btnSignIn" Foreground="White" IsThreeState="False" RelativePanel.AlignBottomWithPanel="True" Click="btnSignIn_Click" HorizontalAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" />
+                    <Button Template="{StaticResource signInBtnTemplate}" Name="btnSignIn" HorizontalAlignment="Stretch" RelativePanel.AlignBottomWithPanel="True" Click="btnSignIn_Click" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
                 </RelativePanel>
             </SplitView.Pane>
         </SplitView>

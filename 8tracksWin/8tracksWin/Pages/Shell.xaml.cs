@@ -21,7 +21,6 @@ namespace _8tracksWin.Pages
 
             if (GlobalConfigs.CurrentUser != null)
             {
-                btnSignIn.IsChecked = true;
                 btnSignIn.Content = "Sign out";
                 GlobalConfigs.CurrentUser.RefreshData();
                 userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
@@ -29,7 +28,6 @@ namespace _8tracksWin.Pages
             }
             else
             {
-                btnSignIn.IsChecked = false;
                 btnSignIn.Content = "Sign in";
             }
             
@@ -45,19 +43,19 @@ namespace _8tracksWin.Pages
         {
             if(signedInUserExists)
             {
-                btnSignIn.Visibility = Visibility.Collapsed;
+                btnSignIn.Content = "Sign out";
                 userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
                 userDetailsPanel.Visibility = Visibility.Visible;
             }
             else
             {
-                btnSignIn.Visibility = Visibility.Visible;
+                btnSignIn.Content = "Sign in";
             }
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            if (((Windows.UI.Xaml.Controls.Primitives.ToggleButton)sender).Content.Equals("Sign in"))
+            if (((Windows.UI.Xaml.Controls.Primitives.ButtonBase)sender).Content.Equals("Sign in"))
                 ContentFrame.Navigate(typeof(LoginPage));
             else
                 Common.Authentication.Logout();
