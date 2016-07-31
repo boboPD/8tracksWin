@@ -67,11 +67,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Name="btnHamburger" Foreground="White" Content="&#xE700;" Background="{StaticResource ThemeColour}" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
-            <TextBlock Text="8tracksWin" HorizontalAlignment="Center"/>
-        </StackPanel>
-        <SplitView Name="shellView" IsPaneOpen="False" Grid.Row="1">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="btnHamburger" Grid.Column="0" Foreground="White" Content="&#xE700;" Background="{StaticResource ThemeColour}" FontFamily="Segoe MDL2 Assets" FontSize="20" Click="btnHamburger_Click" Padding="12"/>
+            <AutoSuggestBox Name="searchBox" Grid.Column="1" QueryIcon="Find" DisplayMemberPath="name" Margin="5" QuerySubmitted="searchBox_QuerySubmitted" SuggestionChosen="searchBox_SuggestionChosen" TextChanged="searchBox_TextChanged" PlaceholderText="Search by atist, mood or genre" />
+        </Grid>
+        <SplitView Name="shellView" IsPaneOpen="False" Grid.Row="1" OpenPaneLength="225">
             <SplitView.Pane>
                 <RelativePanel Background="{StaticResource ThemeColour}">
                     <RelativePanel Name="userDetailsPanel" Visibility="Collapsed">
@@ -82,9 +86,8 @@
                         <TextBlock Foreground="White" Text="{Binding Path=PublishedMixesCount}" RelativePanel.Below="followCounts" RelativePanel.AlignLeftWith="nameTxt" />
                     </RelativePanel>
 
-                    <ListView RelativePanel.Below="userDetailsPanel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
-                        <ListViewItem Tag="" Content="Home" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
-                        <ListViewItem Tag="" Content="Seach" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
+                    <ListView RelativePanel.Below="userDetailsPanel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" ItemClick="HamburgerMenuItemClick">
+                        <ListViewItem Tag="" Content="Home" Template="{StaticResource hamburgerMenuListItemTemplate}" />
                         <ListViewItem Tag="&#xE0A5;" Content="Liked" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                         <ListViewItem Tag="" Content="Listen Later" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                     </ListView>
@@ -102,6 +105,9 @@
                     <VisualState.Setters>
                         <Setter Target="shellView.DisplayMode" Value="CompactInline" />
                         <Setter Target="shellView.IsPaneOpen" Value="true" />
+                        <Setter Target="searchBox.HorizontalAlignment" Value="Right" />
+                        <Setter Target="searchBox.VerticalAlignment" Value="Stretch" />
+                        <Setter Target="searchBox.Width" Value="720" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="wideState">
@@ -110,6 +116,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="shellView.DisplayMode" Value="CompactOverlay" />
+                        <Setter Target="searchBox.HorizontalAlignment" Value="Stretch" />
+                        <Setter Target="searchBox.VerticalAlignment" Value="Stretch" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="narrowState">
@@ -118,6 +126,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="shellView.DisplayMode" Value="Overlay" />
+                        <Setter Target="searchBox.HorizontalAlignment" Value="Stretch" />
+                        <Setter Target="searchBox.VerticalAlignment" Value="Stretch" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

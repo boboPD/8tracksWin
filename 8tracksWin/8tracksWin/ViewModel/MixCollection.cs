@@ -16,6 +16,8 @@ namespace _8tracksWin.ViewModel
         public MixCollection(SearchResult r)
         {
             Collection = r;
+            foreach (var item in Collection.ResultSet.mixes)
+                this.Add(item);
             isFirstLoad = true;
         }
 
