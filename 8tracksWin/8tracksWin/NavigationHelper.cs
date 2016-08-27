@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Core;
 namespace _8tracksWin
 {
-    class NavigationHelper
+    internal static class NavigationHelper
     {
         public static void SetTitleBarBackButton()
         {

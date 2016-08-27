@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page xmlns:Controls="using:_8tracksWin.Controls" 
     x:Class="_8tracksWin.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,37 +10,16 @@
 
     <Pivot Name="mainPivot">
         <PivotItem Name="trendingView" Header="Trending">
-            <GridView Name="trendingMixesLst" ItemClick="OnMixSelected" />
+            <Controls:MixesGridView x:Name="trendingMixesLst" />
         </PivotItem>
         <PivotItem Name="recommendedView" Header="Recommended">
-            <GridView Name="recommendedMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
+            <Controls:MixesGridView x:Name="recommendedMixesLst" Visibility="Collapsed" />
         </PivotItem>
         <PivotItem Name="historyView" Header="Recently Played">
-            <GridView Name="historyMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
+            <Controls:MixesGridView x:Name="historyMixesLst" Visibility="Collapsed" />
         </PivotItem>
         <PivotItem Name="listenLaterView" Header="Listen Later">
-            <GridView Name="listenLaterMixesLst" Visibility="Collapsed" ItemClick="OnMixSelected" />
+            <Controls:MixesGridView x:Name="listenLaterMixesLst" Visibility="Collapsed" />
         </PivotItem>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="mixListViewState">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="540" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixGridViewWide}" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="trendingMixesLst.Style" Value="{StaticResource mixGridViewSmall}" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Pivot>
 </Page>

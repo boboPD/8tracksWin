@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page xmlns:Controls="using:_8tracksWin.Controls" 
     x:Class="_8tracksWin.Pages.SearchResultsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,27 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <GridView Name="searchResultsView" ItemClick="OnMixSelected">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="mixListViewState">
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="540" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="searchResultsView.Style" Value="{StaticResource mixGridViewWide}" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="searchResultsView.Style" Value="{StaticResource mixGridViewSmall}" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </GridView>
+    <Controls:MixesGridView x:Name="searchResultsView"/>
 
 </Page>
