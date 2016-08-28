@@ -19,6 +19,7 @@ namespace _8tracksWin.Pages
             this.InitializeComponent();
             this.shellView.Content = frame;
             ContentFrame = frame;
+            ContentFrame.Background = (Windows.UI.Xaml.Media.SolidColorBrush)Application.Current.Resources["PageBackground"];
 
             if (GlobalConfigs.CurrentUser != null)
             {

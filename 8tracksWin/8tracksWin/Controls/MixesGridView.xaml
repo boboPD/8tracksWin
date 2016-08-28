@@ -18,9 +18,9 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <RelativePanel Name="mixDisplayPanel" MaxWidth="500" Margin="10">
-                            <Image Name ="mixImg" Source="{Binding Path=cover_urls.sq133}" Stretch="UniformToFill" MaxHeight="133" MaxWidth="170"  Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <TextBlock Name="mixName" Text="{Binding Path=name}" FontSize="22" RelativePanel.RightOf="mixImg" TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" LineHeight="28" MaxHeight="84"/>
+                        <RelativePanel Name="mixDisplayPanel" Margin="5" Background="White" BorderBrush="Red">
+                            <Image Name ="mixImg" Source="{Binding Path=cover_urls.max200}" MaxHeight="200" MaxWidth="200" VerticalAlignment="Center" RelativePanel.AlignLeftWithPanel="True"/>
+                            <TextBlock Name="mixName" Text="{Binding Path=name}" FontSize="22" RelativePanel.RightOf="mixImg" Margin="5" TextWrapping="WrapWholeWords" TextTrimming="WordEllipsis" LineHeight="28" MaxHeight="84"/>
                             <StackPanel Name ="mixInfoPanel" Orientation="Horizontal" RelativePanel.Below="mixName" RelativePanel.AlignLeftWith="mixName">
                                 <StackPanel.Resources>
                                     <Style x:Key="iconLbls" TargetType="TextBlock">
@@ -78,27 +78,12 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <GridView Name="gridvw" ItemClick="OnMixClicked" ItemsSource="{Binding MixSource, ElementName=userControl}">
-        
+    <GridView  Name="gridvw" ItemClick="OnMixClicked" ItemsSource="{Binding MixSource, ElementName=userControl}" SizeChanged="gridvw_SizeChanged">
+        <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            </Style>
+        </GridView.ItemContainerStyle>
     </GridView>
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup x:Name="mixListViewState">
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="540" />
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="gridvw.Style" Value="{StaticResource mixGridViewWide}" />
-                </VisualState.Setters>
-            </VisualState>
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="0" />
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="gridvw.Style" Value="{StaticResource mixGridViewSmall}" />
-                </VisualState.Setters>
-            </VisualState>
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
 </UserControl>

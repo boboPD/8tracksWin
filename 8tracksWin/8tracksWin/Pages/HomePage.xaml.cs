@@ -77,7 +77,7 @@ namespace _8tracksWin.Pages
         {
             SearchResult trendingMixesSearch = await MixSearch.FetchTrendingMixes();
             trendingMixes = new MixCollection(trendingMixesSearch);
-            trendingMixesLst.ItemsSource = trendingMixes;
+            trendingMixesLst.MixSource = trendingMixes;
 
             if (GlobalConfigs.CurrentUser != null)
             {
@@ -91,7 +91,7 @@ namespace _8tracksWin.Pages
                     Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                             {
-                                historyMixesLst.ItemsSource = historyMixes;
+                                historyMixesLst.MixSource = historyMixes;
                                 historyMixesLst.Visibility = Visibility.Visible;
                             }
                     );
@@ -103,7 +103,7 @@ namespace _8tracksWin.Pages
                     Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                             {
-                                listenLaterMixesLst.ItemsSource = listenlaterMixes;
+                                listenLaterMixesLst.MixSource = listenlaterMixes;
                                 listenLaterMixesLst.Visibility = Visibility.Visible;
                             }
                     );
