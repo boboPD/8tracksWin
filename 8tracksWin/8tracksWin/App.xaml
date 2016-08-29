@@ -7,8 +7,8 @@
 
     <Application.Resources>
         <SolidColorBrush x:Key="ThemeColour">#2F364A</SolidColorBrush>
-        <SolidColorBrush x:Key="HoverThemeColour">#1F2330</SolidColorBrush>
-        <SolidColorBrush x:Key="PressedThemeColour">#1F2330</SolidColorBrush>
-        <SolidColorBrush x:Key="PageBackground">#FFE6E6E6</SolidColorBrush>
+        <SolidColorBrush x:Key="HoverThemeColour">#FF434D68</SolidColorBrush>
+        <SolidColorBrush x:Key="PressedThemeColour">#FF1F2330</SolidColorBrush>
+        <SolidColorBrush x:Key="PageBackground">#FF1F2330</SolidColorBrush>
     </Application.Resources>
 </Application>
