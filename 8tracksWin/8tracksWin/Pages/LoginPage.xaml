@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="Chocolate">
 
-    <Grid Background="Transparent" VerticalAlignment="Center" Margin="20" MaxWidth="500" >
+    <Grid Background="{StaticResource PageBackground}" Padding="20" VerticalAlignment="Center" Margin="20" MaxWidth="700" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -16,10 +16,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Login" FontSize="20" HorizontalAlignment="Center" Padding="0,0,0,20"/>
-        <TextBox Grid.Row="1" Grid.Column="1" TextChanged="OnPasswordOrUsernameTextChanged" Name="txtUsername" InputScope="EmailNameOrAddress" Margin="5" />
-        <PasswordBox Grid.Row="2" PasswordChanged="OnPasswordOrUsernameTextChanged" Name="txtPassword" Margin="5"/>
-        <Button Grid.Row="3" Name="btnSubmit" IsEnabled="False" Click="OnSubmitButtonClick" HorizontalAlignment="Stretch" Content="Submit" Margin="50,10,50,10"/>
+        <TextBlock Grid.Row="0" Text="Login" Foreground="{StaticResource PrimaryForegroundColour}" FontSize="20" HorizontalAlignment="Center" Padding="0,0,0,20"/>
+        <TextBox Grid.Row="1" Grid.Column="1" PlaceholderText="Username" TextChanged="OnPasswordOrUsernameTextChanged" Name="txtUsername" InputScope="EmailNameOrAddress" Margin="5" />
+        <PasswordBox Grid.Row="2" PlaceholderText="Password" PasswordChanged="OnPasswordOrUsernameTextChanged" Name="txtPassword" Margin="5"/>
+        <Button Grid.Row="3" Foreground="{StaticResource PrimaryForegroundColour}" Name="btnSubmit" IsEnabled="False" Click="OnSubmitButtonClick" HorizontalAlignment="Stretch" Content="Submit" Margin="50,10,50,10"/>
         <TextBlock Grid.Row="4" Name="lblLoginFailedMessage" Text="Login Failed, Please try again." Foreground="Red" HorizontalAlignment="Center" Padding="0,20,0,0" Visibility="Collapsed" />
     </Grid>
 </Page>

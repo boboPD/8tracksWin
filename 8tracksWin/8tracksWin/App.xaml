@@ -10,5 +10,6 @@
         <SolidColorBrush x:Key="HoverThemeColour">#FF434D68</SolidColorBrush>
         <SolidColorBrush x:Key="PressedThemeColour">#FF1F2330</SolidColorBrush>
         <SolidColorBrush x:Key="PageBackground">#FF1F2330</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryForegroundColour">White</SolidColorBrush>
     </Application.Resources>
 </Application>
