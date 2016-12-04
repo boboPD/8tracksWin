@@ -47,7 +47,7 @@ namespace Common
             return playToken;
         }
 
-        public static async Task<CurrentMixProperties> Play(int mixId, ChangeSongUserAction action)
+        public static async Task<CurrentMixProperties> Play(string mixId, ChangeSongUserAction action)
         {
             string actionTxt;
             switch (action)

@@ -8,7 +8,7 @@ namespace Common.Model
 {
     public class Mix
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string path { get; set; }
         public string web_path { get; set; }
         public string name { get; set; }
