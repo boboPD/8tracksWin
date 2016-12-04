@@ -44,53 +44,60 @@ namespace Common
             return queryString.ToString();
         }
 
-        public static HttpResponseMessage Post(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        private static HttpResponseMessage PerformHttpOperationSync(string methodPath, string data, HttpMethod method, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
-            req.Content = new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded");
+            HttpRequestMessage req = CreateRequestObj(methodPath, method, headers, queryParams);
+            if(data != null)
+                req.Content = new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded");
 
             using (HttpClient client = new HttpClient())
             {
-                Task<HttpResponseMessage> response = client.SendAsync(req);
-                response.Wait();
-                return response.Result;
+                return client.SendAsync(req).Result;
             }
         }
 
-        public static async Task<HttpResponseMessage> PostAsync(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        private static async Task<HttpResponseMessage> PerformHttpOperationAsync(string methodPath, string data, HttpMethod method, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Post, headers, queryParams);
-            req.Content = new StringContent(data, System.Text.Encoding.UTF8);
+            HttpRequestMessage req = CreateRequestObj(methodPath, method, headers, queryParams);
+            if(data != null)
+                req.Content = new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded");
 
             using (HttpClient client = new HttpClient())
             {
                 HttpResponseMessage response = await client.SendAsync(req);
                 return response;
             }
+        }
+
+        public static HttpResponseMessage Post(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        {
+            return PerformHttpOperationSync(methodPath, data, HttpMethod.Post, headers, queryParams);
+        }
+
+        public static async Task<HttpResponseMessage> PostAsync(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        {
+            return await PerformHttpOperationAsync(methodPath, data, HttpMethod.Post, headers, queryParams);
         }
 
         public static HttpResponseMessage Get(string methodPath, Dictionary<string,string> headers = null, Dictionary<string,string> queryParams = null)
         {
 
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Get, headers, queryParams);
-
-            using (HttpClient client = new HttpClient())
-            {
-                Task<HttpResponseMessage> response = client.SendAsync(req);
-                response.Wait();
-                return response.Result;
-            }
+            return PerformHttpOperationSync(methodPath, null, HttpMethod.Get, headers, queryParams);
         }
 
         public static async Task<HttpResponseMessage> GetAsync(string methodPath, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
         {
-            HttpRequestMessage req = CreateRequestObj(methodPath, HttpMethod.Get, headers, queryParams);
+            return await PerformHttpOperationAsync(methodPath, null, HttpMethod.Get, headers, queryParams);
+        }
 
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage response = await client.SendAsync(req);
-                return response;
-            }
+        public static HttpResponseMessage Delete(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        {
+            return PerformHttpOperationSync(methodPath, data, HttpMethod.Delete, headers, queryParams);
+        }
+
+        public static async Task<HttpResponseMessage> DeleteAsync(string methodPath, string data, Dictionary<string, string> headers = null, Dictionary<string, string> queryParams = null)
+        {
+            return await PerformHttpOperationAsync(methodPath, data, HttpMethod.Delete, headers, queryParams);
         }
     }
 }

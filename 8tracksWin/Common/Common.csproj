@@ -109,7 +109,10 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="Authentication.cs" />
+    <Compile Include="CollectionHandler.cs" />
     <Compile Include="Configuration\GlobalConfigs.cs" />
+    <Compile Include="Exceptions\EditCollectionException.cs" />
+    <Compile Include="Model\UserMixCollection.cs" />
     <Compile Include="Model\CurrentMix.cs" />
     <Compile Include="Model\Mix.cs" />
     <Compile Include="Model\MixSet.cs" />
