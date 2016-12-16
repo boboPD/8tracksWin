@@ -39,7 +39,7 @@
         </Style>
     </Page.Resources>
 
-    <Pivot Name="mainPivot">
+    <Pivot Name="mainPivot" Margin="0,5,0,0">
         <PivotItem Name="trendingView" Header="Trending">
             <Controls:MixesGridView x:Name="trendingMixesLst" />
         </PivotItem>
@@ -50,7 +50,7 @@
             <Controls:MixesGridView x:Name="historyMixesLst" Visibility="Collapsed" />
         </PivotItem>
         <PivotItem Name="listenLaterView" Header="Listen Later">
-            <Controls:MixesGridView x:Name="listenLaterMixesLst" Visibility="Collapsed" />
+            <Controls:MixesGridView x:Name="listenLaterMixesLst" ListenLaterButtonVisibility="Collapsed" Visibility="Collapsed" />
         </PivotItem>
     </Pivot>
 </Page>

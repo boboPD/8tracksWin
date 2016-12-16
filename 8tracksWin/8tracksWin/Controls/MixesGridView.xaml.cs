@@ -33,6 +33,30 @@ namespace _8tracksWin.Controls
         public static readonly DependencyProperty MixSourceProperty =
             DependencyProperty.Register("MixSource", typeof(object), typeof(MixesGridView), null);
 
+        public Visibility ListenLaterButtonVisibility
+        {
+            get { return (Visibility)GetValue(ListenLaterButtonVisibilityProperty); }
+            set { SetValue(ListenLaterButtonVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowListenLaterButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListenLaterButtonVisibilityProperty =
+            DependencyProperty.Register("ListenLaterButtonVisibility", typeof(Visibility), typeof(MixesGridView), null);
+
+
+
+        public Visibility LikeButtonVisibility
+        {
+            get { return (Visibility)GetValue(LikeButtonVisibilityProperty); }
+            set { SetValue(LikeButtonVisibilityProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for LikeButtonVisibility.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LikeButtonVisibilityProperty =
+            DependencyProperty.Register("LikeButtonVisibility", typeof(Visibility), typeof(MixesGridView), null);
+
+
+
         private void gridvw_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (gridvw.ActualWidth > 1350)

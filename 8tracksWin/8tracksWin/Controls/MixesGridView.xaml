@@ -48,8 +48,11 @@
                                 <TextBlock Text="{Binding Path=tracks_count}" Style="{StaticResource countLbls}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-                                <ToggleButton Style="{StaticResource QuickActionBtn}" Tag="{Binding Path=id}" Name="tglLike" Content="" />
-                                <ToggleButton Style="{StaticResource QuickActionBtn}" Tag="{Binding Path=id}" Name="tglListenlater" Checked="tglListenlater_Checked" Unchecked="tglListenlater_Checked" Content="" />
+                                <ToggleButton Style="{StaticResource QuickActionBtn}" Tag="{Binding Path=id}" Name="tglLike" Content="" 
+                                              Visibility="{Binding LikeButtonVisibility, ElementName=userControl}"/>
+                                <ToggleButton Style="{StaticResource QuickActionBtn}" Tag="{Binding Path=id}" Name="tglListenlater" 
+                                              Checked="tglListenlater_Checked" Unchecked="tglListenlater_Checked" Content="" 
+                                              Visibility="{Binding ListenLaterButtonVisibility, ElementName=userControl}"/>
                             </StackPanel>
                         </RelativePanel>
                     </DataTemplate>
