@@ -11,9 +11,9 @@
         public UserDetailsViewModel(Common.Model.UserInfo info)
         {
             this.Name = info.Name;
-            Location = info.City + ", " + info.Country;
-            FollowCounts = string.Format("{0} followers, follows {1}", info.FollowersCount, info.FollowsCount);
-            PublishedMixesCount = info.MixesCount + "mixes published";
+            Location = (info.City + ", " + info.Country).Trim(',');
+            FollowCounts = info.FollowersCount + " followers";
+            PublishedMixesCount = info.MixesCount + " mixes published";
             AvatarUrlsObj = info.AvatarUrlsCollection;
         }
     }

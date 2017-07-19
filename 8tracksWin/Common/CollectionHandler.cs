@@ -8,7 +8,7 @@ namespace Common
 {
     public static class CollectionHandler
     {
-        private static string m_listenLaterCollId = string.Empty;
+        private static string listenLaterCollId = string.Empty;
 
         /// <summary>
         /// Function to add mixes to or remove mixes from the collection.
@@ -28,13 +28,13 @@ namespace Common
 
         private static async Task<string> GetListenLaterCollectionId()
         {
-            if (m_listenLaterCollId == string.Empty)
+            if (listenLaterCollId == string.Empty)
             {
                 List<Model.UserMixCollection> editableColls = await CollectionHandler.FetchEditablecollections();
-                m_listenLaterCollId = (from c in editableColls where c.slug == "listen-later" select c.id).First();
+                listenLaterCollId = (from c in editableColls where c.slug == "listen-later" select c.id).First();
             }
 
-            return m_listenLaterCollId;
+            return listenLaterCollId;
         }
 
         /// <summary>

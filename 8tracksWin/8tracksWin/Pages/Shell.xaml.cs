@@ -1,6 +1,8 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Common.Configuration;
+using Windows.UI.Xaml.Media.Imaging;
+using System;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -21,19 +23,27 @@ namespace _8tracksWin.Pages
             ContentFrame = frame;
             ContentFrame.Background = (Windows.UI.Xaml.Media.SolidColorBrush)Application.Current.Resources["PageBackground"];
 
-            if (GlobalConfigs.CurrentUser != null)
+            SetSignInButtonContent(GlobalConfigs.CurrentUser != null);
+                        
+            GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
+        }
+
+        private void SetSignInButtonContent(bool signedInUserExists)
+        {
+            if (signedInUserExists)
             {
-                btnSignIn.Content = "Sign out";
                 GlobalConfigs.CurrentUser.RefreshData();
-                userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
-                userDetailsPanel.Visibility = Visibility.Visible;
+                btnSignIn.Content = GlobalConfigs.CurrentUser.Name;
+                double size = (15.0 / 72) * Windows.Graphics.Display.DisplayInformation.GetForCurrentView().LogicalDpi;
+                BitmapImage userImage = new BitmapImage(new Uri(GlobalConfigs.CurrentUser.AvatarUrlsCollection.sq56));
+                userImage.DecodePixelHeight = (int)size;
+                btnSignIn.Tag = userImage;
             }
             else
             {
                 btnSignIn.Content = "Sign in";
+                btnSignIn.Tag = null;
             }
-            
-            GlobalConfigs.LoggedInUserExists += SignedInUserStatusChangeHandler;
         }
 
         private void btnHamburger_Click(object sender, RoutedEventArgs e)
@@ -43,16 +53,7 @@ namespace _8tracksWin.Pages
 
         private void SignedInUserStatusChangeHandler(object sender, bool signedInUserExists)
         {
-            if(signedInUserExists)
-            {
-                btnSignIn.Content = "Sign out";
-                userDetailsPanel.DataContext = new ViewModel.UserDetailsViewModel(GlobalConfigs.CurrentUser);
-                userDetailsPanel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                btnSignIn.Content = "Sign in";
-            }
+            SetSignInButtonContent(signedInUserExists);
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
@@ -60,7 +61,7 @@ namespace _8tracksWin.Pages
             if (((Windows.UI.Xaml.Controls.Primitives.ButtonBase)sender).Content.Equals("Sign in"))
                 ContentFrame.Navigate(typeof(LoginPage));
             else
-                Common.Authentication.Logout();
+                ContentFrame.Navigate(typeof(AccountInfoPage));
         }
 
         private async void searchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -94,7 +95,7 @@ namespace _8tracksWin.Pages
 
         private void HamburgerMenuItemClick(object sender, ItemClickEventArgs e)
         {
-            string itemClicked = (string)((ListViewItem)e.ClickedItem).Content;
+            string itemClicked = (string)e.ClickedItem;
             switch (itemClicked)
             {
                 case "Home":
@@ -102,7 +103,8 @@ namespace _8tracksWin.Pages
                     break;
                 case "Liked":
                     break;
-                case "Listen Later":
+                case "Sign in":
+                    ContentFrame.Navigate(typeof(LoginPage));
                     break;
                 default:
                     break;

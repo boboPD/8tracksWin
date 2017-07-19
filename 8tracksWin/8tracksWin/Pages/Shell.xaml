@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="" Foreground="White" FontFamily="Segoe MDL2 Assets" FontSize="15" Padding="15" />
+                <Image Grid.Column="0" Source="{TemplateBinding Tag}" />
                 <TextBlock Grid.Column="1" Text="{TemplateBinding Content}" Foreground="White" FontSize="15" Margin="8,0,0,0" VerticalAlignment="Center"/>
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup x:Name="CommonStates" >
@@ -78,18 +78,9 @@
         <SplitView Name="shellView" IsPaneOpen="False" Grid.Row="1" OpenPaneLength="225">
             <SplitView.Pane>
                 <RelativePanel Background="{StaticResource ThemeColour}">
-                    <RelativePanel Name="userDetailsPanel" Visibility="Collapsed">
-                        <Image Name="profilePic" MaxHeight="72" MaxWidth="72" Source="{Binding Path=AvatarUrlsObj.sq72}" />
-                        <TextBlock Name="nameTxt" Foreground="White" Text="{Binding Path=Name}" RelativePanel.RightOf="profilePic"/>
-                        <TextBlock Name="addressTxt" Foreground="White" Text="{Binding Path=Location}" RelativePanel.Below="nameTxt" RelativePanel.AlignLeftWith="nameTxt"/>
-                        <TextBlock Name="followCounts" Foreground="White" Text="{Binding Path=FollowCounts}" RelativePanel.Below="addressTxt" RelativePanel.AlignLeftWith="nameTxt" />
-                        <TextBlock Foreground="White" Text="{Binding Path=PublishedMixesCount}" RelativePanel.Below="followCounts" RelativePanel.AlignLeftWith="nameTxt" />
-                    </RelativePanel>
-
-                    <ListView RelativePanel.Below="userDetailsPanel" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" ItemClick="HamburgerMenuItemClick">
+                    <ListView RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" ItemClick="HamburgerMenuItemClick">
                         <ListViewItem Tag="" Content="Home" Template="{StaticResource hamburgerMenuListItemTemplate}" />
                         <ListViewItem Tag="&#xE0A5;" Content="Liked" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
-                        <ListViewItem Tag="" Content="Listen Later" Template="{StaticResource hamburgerMenuListItemTemplate}"/>
                     </ListView>
                     <Button Template="{StaticResource signInBtnTemplate}" Name="btnSignIn" HorizontalAlignment="Stretch" RelativePanel.AlignBottomWithPanel="True" Click="btnSignIn_Click" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" />
                 </RelativePanel>
