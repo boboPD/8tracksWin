@@ -1,0 +1,47 @@
+﻿<UserControl x:Name="userControl"
+    x:Class="_8tracksWin.Controls.MixPlayer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:_8tracksWin.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="10,0,10,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Name="root" Background="{StaticResource ThemeColour}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Name="btnPlayPause" Grid.Column="1" />
+        <Button Name="btnNext" IsEnabled="{Binding skip_allowed}" Grid.Column="2" Content="" Click="btnNext_Click" />
+        <Slider Name="seekBar" Grid.Column="3" Margin="10,0,10,0" VerticalAlignment="Center"/>
+        <MediaElement Name="mediaPlayer" MediaOpened="mediaPlayer_MediaOpened" MediaEnded="mediaPlayer_MediaEnded" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="PlaybackStates">
+                <VisualState x:Name="Playing">
+                    <VisualState.Setters>
+                        <Setter Target="btnPlayPause.Content" Value="" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Paused">
+                    <VisualState.Setters>
+                        <Setter Target="btnPlayPause.Content" Value="" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

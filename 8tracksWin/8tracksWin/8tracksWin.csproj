@@ -98,10 +98,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MixPlayer.xaml.cs">
+      <DependentUpon>MixPlayer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MixesGridView.xaml.cs">
       <DependentUpon>MixesGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationHelper.cs" />
+    <Compile Include="Pages\AccountInfoPage.xaml.cs">
+      <DependentUpon>AccountInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -142,7 +148,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\MixPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MixesGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AccountInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
